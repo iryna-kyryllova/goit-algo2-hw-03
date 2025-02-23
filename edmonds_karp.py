@@ -144,3 +144,16 @@ sink = 21    # SuperSink
 max_flow, flow_matrix = edmonds_karp(capacity_matrix, source, sink)
 
 print(f"Максимальний потік: {max_flow}")
+
+# Формуємо таблицю фактичних потоків між терміналами та магазинами
+flow_data = []
+
+for terminal in [0, 1]:  # Термінал 1 (0) і Термінал 2 (1)
+    for store in range(6, 20):  # Магазини (індекси 6-19)
+        actual_flow = sum(flow_matrix[warehouse][store] for warehouse in range(2, 6) if flow_matrix[warehouse][store] > 0)
+        flow_data.append([f"Термінал {terminal + 1}", f"Магазин {store - 5}", actual_flow])
+
+df_flows = pd.DataFrame(flow_data, columns=["Термінал", "Магазин", "Фактичний Потік (одиниць)"])
+
+print(f"Фактичний Потік:\n{df_flows}")
+
